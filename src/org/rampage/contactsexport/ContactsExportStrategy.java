@@ -120,7 +120,7 @@ public class ContactsExportStrategy implements Runnable
                 this.exportPhotos(export, contactId);
 
                 items.put(export);
-                Log.d(LOG_ID, "Export: " + export.toString(4));
+                //Log.d(LOG_ID, "Export: " + export.toString(4));
             } catch (JSONException e) {
                 Log.wtf(LOG_ID, "JSON Error: " + e.getMessage(), e);
             }
@@ -137,7 +137,7 @@ public class ContactsExportStrategy implements Runnable
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Content-Length", Integer.toString(json.getBytes().length));
+            //connection.setRequestProperty("Content-Length", Integer.toString(json.getBytes().length));
 
             connection.setUseCaches(false);
             connection.setDoInput(true);
@@ -158,9 +158,10 @@ public class ContactsExportStrategy implements Runnable
             }
 
             in.close();
-            Log.d(LOG_ID, "Result: " + result.toString());
+            String resStr = result.toString();
+            Log.i(LOG_ID, "Result: " + resStr);
 
-            this.activity.completeExport();
+            this.activity.completeExport(resStr);
         } catch (MalformedURLException e) {
             Log.e(LOG_ID, e.getMessage());
             this.activity.completeExport(e.getMessage());
